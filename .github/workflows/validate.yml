@@ -7,6 +7,7 @@ on:
     paths: &a1
       - .config
       - diy-*.sh
+      - scripts/**
       - .github/workflows/**
   pull_request:
     paths: *a1
@@ -27,4 +28,5 @@ jobs:
         run: |
           for script in diy-part1.sh diy-part2.sh; do bash -n "$script"; done
           test -s .config
-          grep -q "^CONFIG_TARGET" .config
+          python3 scripts/validate-config.py
+          python3 -m unittest discover -s scripts -p 'test_*.py'
